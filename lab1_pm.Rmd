@@ -1,0 +1,42 @@
+---
+title: "lab1_pm"
+author: "Peyton Moore"
+date: "1/7/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(here)
+library(sf)
+library(tmap)
+```
+
+
+### Read in SF trees data 
+
+```{r }
+
+sf_trees <- read_csv(here::here("data", "sf_trees", "sf_trees.csv"))
+
+
+```
+
+### Basic wrangling reminders
+
+Refresh some skills for data wrangling and summary statistics using functions in the `dplyr` package. 
+
+Find the top five highest obeservations of trees by legal_status, do some wrangling, make a graph 
+```{r}
+top_5_status <-  sf_trees %>% 
+  count(legal_status) %>%  # can count by multiple variables 
+  drop_na(legal_status) %>% 
+  rename(tree_count = n) %>% 
+  relocate(tree_count) %>%  # cool function for reordering columns
+  slice_max(tree_count, n = 5)
+
+
+
+```
